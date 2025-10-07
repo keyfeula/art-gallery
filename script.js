@@ -15,7 +15,7 @@ const artPiece = {
 
 async function getGalleryObjects() {
     try {
-        const response = await fetch("https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true");
+        const response = await fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=11");
         if (!response.ok) {
             throw new Error("Error: " + response.statusText);
         }
@@ -29,13 +29,18 @@ async function getGalleryObjects() {
 
 async function getImage() {
     try {
-        const randomIndex = Math.floor(Math.random() * (galleryObjects.length - 1));
-        const response = await fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + galleryObjects[randomIndex]);
+        const randomIndex = Math.floor(Math.random() * (galleryIDs.length - 1));
+        const response = await fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + galleryIDs[randomIndex]);
         if (!response.ok) {
             throw new Error("Error: " + response.statusText);
         }
 
         const json = await response.json();
+
+        if (!json.primaryImage) {
+            await getImage();
+        }
+
         artPiece.artistName = json.artistDisplayName;
         artPiece.yearCompleted = json.objectEndDate;
         artPiece.name = json.title;
@@ -43,15 +48,20 @@ async function getImage() {
         artPiece.smallImgURL = json.primaryImageSmall;
         artPiece.imageURL = json.primaryImage;
 
-        img.src = artPiece.imageURL;
+        img.src = artPiece.smallImgURL;
     }
     catch(error) {
         console.log(error);
     }
 }
 
-//getGalleryObjects();
+async function initialize() {
+    await getGalleryObjects();
+    await getImage();
+}
+
+initialize();
 
 button.addEventListener("click", (event) => {
-    //getImage();
+    getImage();
 });
