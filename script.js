@@ -13,7 +13,7 @@ const artPiece = {
     smallImgURL: ""
 }
 
-async function getGalleryObjects() {
+async function getGalleryIDs() {
     try {
         const response = await fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=11");
         if (!response.ok) {
@@ -27,7 +27,7 @@ async function getGalleryObjects() {
     }
 }
 
-async function getImage() {
+async function getArt() {
     try {
         const randomIndex = Math.floor(Math.random() * (galleryIDs.length - 1));
         const response = await fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + galleryIDs[randomIndex]);
@@ -37,8 +37,8 @@ async function getImage() {
 
         const json = await response.json();
 
-        if (!json.primaryImage) {
-            await getImage();
+        if (!json.primaryImage || !json.primaryImageSmall) {
+            getArt();
         }
 
         artPiece.artistName = json.artistDisplayName;
@@ -55,13 +55,11 @@ async function getImage() {
     }
 }
 
-async function initialize() {
-    await getGalleryObjects();
-    await getImage();
+async function initializeGallery() {
+    await getGalleryIDs();
+    await getArt();
+
+    button.addEventListener("click", (e) => getArt());
 }
 
-initialize();
-
-button.addEventListener("click", (event) => {
-    getImage();
-});
+initializeGallery();
