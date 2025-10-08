@@ -1,7 +1,10 @@
 const button = document.querySelector("button");
 const img = document.querySelector("img");
 const frame = document.querySelector(".frame");
-
+const artTitle = document.querySelector(".title");
+const artistName = document.querySelector(".artist");
+const yearCompleted = document.querySelector(".year");
+const smallImg = document.querySelector("picture source");
 let galleryIDs;
 
 const artPiece = {
@@ -48,7 +51,12 @@ async function getArt() {
         artPiece.smallImgURL = json.primaryImageSmall;
         artPiece.imageURL = json.primaryImage;
 
-        img.src = artPiece.smallImgURL;
+        img.src = artPiece.imageURL;
+        img.alt = artPiece.name;
+        smallImg.srcset = artPiece.smallImgURL;
+        artTitle.textContent = '"' + artPiece.name + '"';
+        artistName.textContent = artPiece.artistName;
+        yearCompleted.textContent = artPiece.yearCompleted;
     }
     catch(error) {
         console.log(error);

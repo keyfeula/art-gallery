@@ -17,6 +17,7 @@ html {
 
 img {
     max-width: 100%;
+    max-height: 85vh;
     object-fit: contain;
 }
 
@@ -35,8 +36,15 @@ button:hover {
 
 body {
     min-height: 100vh;
-    padding: 2rem;
     background: radial-gradient(var(--spotlight-color), var(--bg-color));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.gallery-data {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,12 +54,35 @@ body {
 
 .frame {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     border: 10px solid var(--gold-color);
     border-radius: 2px;
-    max-width: 20rem;
-    min-width: 10rem;
+    max-width: 40rem;
+    min-width: 15rem;
     min-height: 15rem;
+    color: #ffffff;
     background: #000000;
     box-shadow: 3px 6px 6px hsl(0deg 0% 0% / 0.3);
+}
+
+.art-info {
+    border: 5px solid var(--gold-color);
+    border-radius: 2px;
+    background-color: #dfd8bc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    color: #000000;
+    list-style-type: none;
+    box-shadow: 2px 4px 4px hsl(0deg 0% 0% / 0.3);
+    text-align: center;
+}
+
+@media (max-width: 400px) {
+    body {
+        flex-direction: column;
+    }
 }
