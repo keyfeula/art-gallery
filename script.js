@@ -67,7 +67,10 @@ async function initializeGallery() {
     await getGalleryIDs();
     await getArt();
 
-    button.addEventListener("click", (e) => getArt());
+    button.addEventListener("click", (e) => {
+        getArt();
+        window.scroll(0,0);
+    });
 }
 
 initializeGallery();
